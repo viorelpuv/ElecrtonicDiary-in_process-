@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block body %}
+<header class="header">
+    <div class="container">
+        <!-- Header nav -->
+        <div class="header-nav">
+            <a href="#" class="logo">ЭЛЕКТРОННЫЙ ДНЕВНИК</a>
+            <nav class="nav-list">
+                <ul class="login-teacher">
+                    <li class="login-teacher-item"><a href="#" class="login-teacher--text">Войти как преподаватель</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="login">
+            <div class="login-text">
+                <h1 class="login-text-enter">Вход</h1>
+                <div class="login-text-registration">
+                    <h2 class="login-text-no-account">Нет аккаунта?</h2>
+                    <a href="#" class="login-text-reg-link">Зарегистрироваться</a>
+                </div>
+            </div>
+            <form method="post" action="#" name="login-form" id="login-form">
+                <input type="text" id="fio" name="fnl" placeholder="ФИО">
+                <input type="text" id="group" name="group" placeholder="Группа">
+                <input type="text" id="password" name="password" placeholder="Пароль">
+                <input type="submit" value="Войти" id="login-submit">
+            </form>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="warning">
+                        {% for message in messages %}
+                            <p class="flash-text">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endwith %}
+        </div>
+
+    </div>
+</header>
+{% endblock %}

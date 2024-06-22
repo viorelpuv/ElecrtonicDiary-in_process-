@@ -1,0 +1,8 @@
+./bin/
+
+__pycache__/
+__pypackages__/
+
+.venv
+data.db/
+.idea/
