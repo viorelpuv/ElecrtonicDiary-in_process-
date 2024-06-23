@@ -1,6 +1,7 @@
 import os
 import sqlite3 as sql
 
+import flask.typing
 from flask import Flask, render_template, request, redirect, flash
 
 app = Flask(__name__)
@@ -35,12 +36,13 @@ def login_test():
         users = db.select_users()
 
         if len(login) != 0 and len(group) != 0 and len(password) != 0:
-            for i in users:
-                if login in i:
+            for user in users:
+                if login == user[1] and group == user[2] and password == user[3]:
                     flash('Good!', 'message')
                     return redirect('/')
-                else:
-                    return "Вы не зарегистрированы!"
+            else:
+                flash('Bad!', 'message')
+                return redirect('/')
         else:
             return "Пустое значение"
     else:

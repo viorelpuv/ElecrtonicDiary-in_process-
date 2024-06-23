@@ -141,20 +141,46 @@ body {
     margin-top: 36px;
 }
 
-.warning {
+.warning-box {
+    width: 462px;
+    height: 67px;
+    display: flex;
+    margin: 0 auto;
+}
+
+.warning-good,
+.warning-bad{
     bottom: 45px;
     width: 462px;
     height: 67px;
     font-weight: 700;
     font-size: 28px;
-    background-color: #F44C4C;
     color: white;
     border-radius: 15px;
-    box-shadow: 0 0 11px 1px #F44C4C;
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
+}
+
+.warning-good {
+    background-color: #5AEC60;
+    box-shadow: 0 0 11px 1px #5AEC60;
+}
+
+.warning-bad {
+    background-color: #F44C4C;
+    box-shadow: 0 0 11px 1px #F44C4C;
+}
+
+.warning-good,
+.warning-bad{
+    opacity: 0;
+    animation: anim 3s ease-in alternate-reverse;
+}
+@keyframes anim {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 .flash-text {

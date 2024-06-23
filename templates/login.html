@@ -28,16 +28,22 @@
                 <input type="text" id="password" name="password" placeholder="Пароль">
                 <input type="submit" value="Войти" id="login-submit">
             </form>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <div class="warning">
-                        {% for message in messages %}
-                            <p class="flash-text">{{ message }}</p>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                {% endwith %}
         </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="warning-box">
+            {% for message in messages %}
+            {% if message == "Good!" %}
+            <div class="warning-good"><p class="flash-text">{{ message }}</p></div>
+            {% endif %}
+            {% if message == "Bad!" %}
+            <div class="warning-bad"><p class="flash-bad">{{ message }}</p></div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
 
     </div>
 </header>
