@@ -23,7 +23,7 @@ dp = Dispatcher(storage=MemoryStorage())
 
 # #~#~#~# [ Сообщение при запуске бота ] #~#~#~#
 async def startBot():
-    await bot.send_message(admin, "Start Bot")
+    await bot.send_message(admin, "/start")
 
 
 # #~#~#~# [ Инициализация сообщения при запуске бота ] #~#~#~#

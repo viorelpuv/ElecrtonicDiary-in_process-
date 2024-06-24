@@ -11,8 +11,9 @@ class Database:
         VALUES (?, ?, ?, ?, ?, ?)""", (user_id, second_name, first_name, middle_name, group, password))
         self.con.commit()
 
-    def select_users(self):
-        return self.cur.execute("""SELECT * FROM telegram_users""").fetchall()
+    def select_users(self, user_id):
+        return (self.cur.execute("""SELECT * FROM telegram_users WHERE user_id = ?""", (user_id,))
+                .fetchall())
 
     def __del__(self):
         self.cur.close()
