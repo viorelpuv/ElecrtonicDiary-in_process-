@@ -3,6 +3,7 @@
 __pycache__/
 __pypackages__/
 
-.venv
+.env/
+.venv/
 data.db/
 .idea/

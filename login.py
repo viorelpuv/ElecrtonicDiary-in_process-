@@ -1,7 +1,6 @@
 import os
 import sqlite3 as sql
 
-import flask.typing
 from flask import Flask, render_template, request, redirect, flash
 
 app = Flask(__name__)
