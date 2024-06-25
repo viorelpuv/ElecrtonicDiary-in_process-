@@ -13,13 +13,13 @@ class UsersKeyboard:
         ]], resize_keyboard=True, one_time_keyboard=True)
 
     def NewUserWebLink(self):
-        self.inline_kb().add(InlineKeyboardButton(
+        kb = self.inline_kb().add(InlineKeyboardButton(
             text="Дневник",
             url="https://google.com",
             callback_data="new_user_web_link"
         ))
-        self.inline_kb().adjust(1)
-        return self.inline_kb().as_markup()
+        kb.adjust(1)
+        return kb.as_markup()
 
     def StartRegisterUser(self):
         return self.reply_kb(keyboard=[[

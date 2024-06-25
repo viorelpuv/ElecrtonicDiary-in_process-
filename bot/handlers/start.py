@@ -7,9 +7,9 @@ from aiogram.fsm.context import FSMContext
 from bot.utils.database import Database
 from bot.keyboards.usersKeyboard import UsersKeyboard
 from bot.states.stateRegistration import Registration
+from hashing import Hashing
+from bot.handlers.loginGenerator import LoginGenerate
 
-
-# !!! НАДО ДОБАВИТЬ ЛОГИН !!! #
 
 async def start(msg: Message, bot: Bot):
     user = msg.from_user.id
@@ -43,17 +43,32 @@ async def startRegistrationGroup(msg: Message, bot: Bot, state: FSMContext):
 
 async def startRegistrationPassword(msg: Message, bot: Bot, state: FSMContext):
     user = msg.from_user.id
-    await state.update_data(group=msg.text)
-    await bot.send_message(user, "Теперь придумай пароль для личного кабинета")
-    await state.set_state(Registration.password)
+    if len(msg.text.split('-')[1]) == 2 and int(msg.text.split('-')[1][0]) <= 4:
+        await state.update_data(group=msg.text)
+        await bot.send_message(user, "Теперь придумай пароль для личного кабинета")
+        await state.set_state(Registration.password)
+    else:
+        await bot.send_message(user, "Ты ошибся в номере группы. Напиши заново!")
+        return
 
 
 async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
     user = msg.from_user.id
     db = Database()
     kb = UsersKeyboard()
-    await state.update_data(password=msg.text)
-    data = await state.get_data()
+    if len(msg.text.split()) == 1:
+        await state.update_data(password=msg.text)
+        data = await state.get_data()
+    else:
+        await bot.send_message(user, "Вводи пароль без пробелов!")
+        return
+
+    login = LoginGenerate(
+            s_name=data['fio'][0],
+            f_name=data['fio'][1],
+            l_group=data['group']
+            ).generate()
+    hashing = Hashing(f"{data['password']}").Encoding()
 
     db.add_user(
         user_id=user,
@@ -61,8 +76,14 @@ async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
         first_name=data['fio'][1],
         middle_name=data['fio'][2],
         group=data['group'],
-        password=data['password']
+        password=hashing,
+        login=login
     )
 
-    await bot.send_message(user, f"Успешно! Теперь вы можете войти в личный кабинет на нашем сайте 😊",
+    # !!! ДОБАВИТЬ ФОРМАТИРОВАНИЕ ЛОГИНА И ПАРОЛЯ ДЛЯ КОПИРОВАНИЯ !!! #
+    await bot.send_message(user, "ㅤ", reply_markup=kb.StartRegisterUser())
+    await bot.send_message(user, f"Успешно! Теперь вы можете войти в личный кабинет на нашем сайте 😊\n\n"
+                                 f"Ваши данные для входа:\n"
+                                 f"⊢ <b>Логин:</b> {login}\n"
+                                 f"⊢ <b>Пароль:</b> {data['password']}",
                            reply_markup=kb.NewUserWebLink())

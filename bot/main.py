@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.client.default import DefaultBotProperties
 
 from bot.handlers.start import (start, startRegistrationFio, startRegistrationGroup, startRegistrationPassword,
                                 startRegistrationFinish)
@@ -17,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 token = os.getenv('token')
 admin = os.getenv('admin')
 
-bot = Bot(token=token)
+bot = Bot(token=token, default=DefaultBotProperties(parse_mode='HTML'))
 dp = Dispatcher(storage=MemoryStorage())
 
 
@@ -33,7 +34,6 @@ dp.startup.register(startBot)
 dp.message.register(start, Command('start'))
 
 
-# !!! НАДО ДОБАВИТЬ ЛОГИН !!! #
 dp.message.register(startRegistrationFio, F.text == "Регистрация")
 dp.message.register(startRegistrationGroup, Registration.fio)
 dp.message.register(startRegistrationPassword, Registration.group)

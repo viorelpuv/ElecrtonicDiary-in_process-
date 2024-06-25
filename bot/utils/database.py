@@ -6,9 +6,10 @@ class Database:
         self.con = sql.connect(r'E:\Project\ElDiary\data.db')
         self.cur = self.con.cursor()
 
-    def add_user(self, user_id, second_name, first_name, middle_name, group, password):
-        self.cur.execute("""INSERT INTO telegram_users (user_id, Фамилия, Имя, Отчество, Группа, Пароль)
-        VALUES (?, ?, ?, ?, ?, ?)""", (user_id, second_name, first_name, middle_name, group, password))
+    def add_user(self, user_id, second_name, first_name, middle_name, group, password, login):
+        self.cur.execute("""INSERT INTO telegram_users (user_id, Фамилия, Имя, Отчество, Группа, Пароль, Логин)
+        VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                         (user_id, second_name, first_name, middle_name, group, password, login))
         self.con.commit()
 
     def select_users(self, user_id):
