@@ -1,5 +1,3 @@
-import os
-
 from aiogram import Bot
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -7,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from bot.utils.database import Database
 from bot.keyboards.usersKeyboard import UsersKeyboard
 from bot.states.stateRegistration import Registration
-from hashing import Hashing
+from bot.handlers.hashing import Hashing
 from bot.handlers.loginGenerator import LoginGenerate
 
 
@@ -84,6 +82,6 @@ async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
     await bot.send_message(user, "ㅤ", reply_markup=kb.StartRegisterUser())
     await bot.send_message(user, f"Успешно! Теперь вы можете войти в личный кабинет на нашем сайте 😊\n\n"
                                  f"Ваши данные для входа:\n"
-                                 f"⊢ <b>Логин:</b> {login}\n"
-                                 f"⊢ <b>Пароль:</b> {data['password']}",
+                                 f"⊢ <b>Логин:</b> <i><code>{login}</code></i>\n"
+                                 f"⊢ <b>Пароль:</b> <i><code>{data['password']}</code></i>",
                            reply_markup=kb.NewUserWebLink())
