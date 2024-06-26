@@ -1,0 +1,56 @@
+@import "reset.css";
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Wix Madefor Display', sans-serif;
+}
+
+.main-header {
+    height: 7em;
+    box-shadow: 0 4px 4px #E8E8E8;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 30px;
+    margin: 0 auto;
+    user-select: none;
+}
+
+.main-logo{
+    font-weight: 700;
+    font-size: 1.5em;
+    color: #6d7b9e;
+    display: flex;
+    width: 202px;
+    margin-left: 1.1em;
+}
+
+.logotype-image {
+    border: 1px solid black;
+}
+
+.main-box-logo {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-header-nav {
+    padding-right: 1.5em;
+    display: inline-flex;
+}
+.main-header-nav li {
+    font-weight: 600;
+    font-size: 1.2em;
+    color: #6d7b9e;
+    padding-left: 3em;
+}
+.main-header-nav a {
+    color: #6d7b9e;
+}
+
+.profile_nav {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #6d7b9e;
+}

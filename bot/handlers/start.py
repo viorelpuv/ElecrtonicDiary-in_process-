@@ -1,3 +1,4 @@
+import aiogram.exceptions
 from aiogram import Bot
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -42,9 +43,12 @@ async def startRegistrationGroup(msg: Message, bot: Bot, state: FSMContext):
 async def startRegistrationPassword(msg: Message, bot: Bot, state: FSMContext):
     user = msg.from_user.id
     if len(msg.text.split('-')[1]) == 2 and int(msg.text.split('-')[1][0]) <= 4:
-        await state.update_data(group=msg.text)
-        await bot.send_message(user, "Теперь придумай пароль для личного кабинета")
-        await state.set_state(Registration.password)
+        if len(msg.text.split('-')[0]) <= 3:
+            await state.update_data(group=msg.text)
+            await bot.send_message(user, "Теперь придумай пароль для личного кабинета")
+            await state.set_state(Registration.password)
+        else:
+            await bot.send_message(user, "Ты ошибся в аббревиатуре группы. Напиши заново!")
     else:
         await bot.send_message(user, "Ты ошибся в номере группы. Напиши заново!")
         return
@@ -66,7 +70,6 @@ async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
             f_name=data['fio'][1],
             l_group=data['group']
             ).generate()
-    hashing = Hashing(f"{data['password']}").Encoding()
 
     db.add_user(
         user_id=user,
@@ -74,14 +77,17 @@ async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
         first_name=data['fio'][1],
         middle_name=data['fio'][2],
         group=data['group'],
-        password=hashing,
+        password=data['password'],
         login=login
     )
 
-    # !!! ДОБАВИТЬ ФОРМАТИРОВАНИЕ ЛОГИНА И ПАРОЛЯ ДЛЯ КОПИРОВАНИЯ !!! #
     await bot.send_message(user, "ㅤ", reply_markup=kb.StartRegisterUser())
-    await bot.send_message(user, f"Успешно! Теперь вы можете войти в личный кабинет на нашем сайте 😊\n\n"
-                                 f"Ваши данные для входа:\n"
-                                 f"⊢ <b>Логин:</b> <i><code>{login}</code></i>\n"
-                                 f"⊢ <b>Пароль:</b> <i><code>{data['password']}</code></i>",
-                           reply_markup=kb.NewUserWebLink())
+    try:
+        await bot.send_message(user, f"Успешно! Теперь вы можете войти в личный кабинет на нашем сайте 😊\n\n"
+                                     f"Ваши данные для входа:\n"
+                                     f"⊢ <b>Логин:</b> <i><code>{login}</code></i>\n"
+                                     f"⊢ <b>Пароль:</b> <i><code>{data['password']}</code></i>",
+                               reply_markup=kb.NewUserWebLink())
+    except aiogram.exceptions.TelegramBadRequest:
+        await bot.send_message(user, f"Успешно! Теперь вы можете войти в личный кабинет на нашем сайте 😊",
+                               reply_markup=kb.NewUserWebLink())
