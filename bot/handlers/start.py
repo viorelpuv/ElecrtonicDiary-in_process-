@@ -6,8 +6,8 @@ from aiogram.fsm.context import FSMContext
 from bot.utils.database import Database
 from bot.keyboards.usersKeyboard import UsersKeyboard
 from bot.states.stateRegistration import Registration
-from bot.handlers.hashing import Hashing
 from bot.handlers.loginGenerator import LoginGenerate
+from bot.handlers.hashing import Encryptor
 
 
 async def start(msg: Message, bot: Bot):
@@ -58,6 +58,7 @@ async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
     user = msg.from_user.id
     db = Database()
     kb = UsersKeyboard()
+    e = Encryptor()
     if len(msg.text.split()) == 1:
         await state.update_data(password=msg.text)
         data = await state.get_data()
@@ -77,7 +78,7 @@ async def startRegistrationFinish(msg: Message, bot: Bot, state: FSMContext):
         first_name=data['fio'][1],
         middle_name=data['fio'][2],
         group=data['group'],
-        password=data['password'],
+        password=e.Encrypted(f"{data['password']}"),
         login=login
     )
 

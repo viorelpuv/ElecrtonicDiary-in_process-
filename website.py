@@ -3,6 +3,8 @@ import sqlite3 as sql
 
 from flask import Flask, render_template, request, redirect, flash
 
+from bot.handlers.hashing import Encryptor
+
 app = Flask(__name__)
 
 
@@ -32,12 +34,13 @@ class Database:
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     db = Database()
+    e = Encryptor()
     if request.method == 'POST':
         login_form = request.form['fnl']
         group_form = request.form['group']
         password_form = request.form['password']
 
-        login_base = db.select_with_login(login=login_form, group=group_form, password=password_form)
+        login_base = db.select_with_login(login=login_form, group=group_form, password=e.Encrypted(password_form))
 
         if len(login_form) != 0 and len(group_form) != 0 and len(password_form) != 0:
             if login_base:
