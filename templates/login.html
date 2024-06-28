@@ -8,12 +8,14 @@
         <!-- Header nav -->
         <div class="header-nav">
             <div class="logotype">
-                <a class="logotype-image"><img src="E:/Project/ElDiary/images/yotk" width="77" height="70" alt=""></a>
+                <a class="logotype-image"><img src="{{ url_for('static', filename = 'images/yotk_black.png') }}" width="77"
+                                               height="70" alt=""></a>
                 <a class="logo">ЭЛЕКТРОННЫЙ ДНЕВНИК</a>
             </div>
             <nav class="nav-list">
                 <ul class="login-teacher">
-                    <li class="login-teacher-item"><a href="#" class="login-teacher--text">Войти как преподаватель</a></li>
+                    <li class="login-teacher-item"><a href="#" class="login-teacher--text">Войти как преподаватель</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -23,11 +25,11 @@
                 <h1 class="login-text-enter">Вход</h1>
                 <div class="login-text-registration">
                     <h2 class="login-text-no-account">Нет аккаунта?</h2>
-                    <a href="#" class="login-text-reg-link">Зарегистрироваться</a>
+                    <a href="https://t.me/YOTK_Robot" class="login-text-reg-link">Зарегистрироваться</a>
                 </div>
             </div>
             <form method="post" action="#" name="login-form" id="login-form">
-                <input type="text" id="fio" name="fnl" placeholder="ФИО">
+                <input type="text" id="fio" name="fnl" placeholder="Логин">
                 <input type="text" id="group" name="group" placeholder="Группа">
                 <input type="text" id="password" name="password" placeholder="Пароль">
                 <input type="submit" value="Войти" id="login-submit">

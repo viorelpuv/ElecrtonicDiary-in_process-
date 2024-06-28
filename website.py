@@ -1,33 +1,11 @@
 import os
-import sqlite3 as sql
 
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, make_response
+from websiteDatabase import Database
 
 from bot.handlers.hashing import Encryptor
 
 app = Flask(__name__)
-
-
-class Database:
-    def __init__(self):
-        self.con = sql.connect('data.db')
-        self.cur = self.con.cursor()
-
-    def add_user(self, login, group, password):
-        self.cur.execute("""INSERT INTO users(login, group_, password) VALUES (?, ?, ?)""",
-                         (login, group, password))
-        self.con.commit()
-
-    def select_users(self):
-        return self.cur.execute("""SELECT * FROM telegram_users""").fetchall()
-
-    def select_with_login(self, login, group, password):
-        return self.cur.execute("""SELECT * FROM telegram_users WHERE Логин = ? AND Группа = ? AND Пароль = ?""",
-                                (login, group, password)).fetchone()
-
-    def __del__(self):
-        self.cur.close()
-        self.con.close()
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -46,7 +24,7 @@ def login():
             if login_base:
                 flash('Good!', 'message')
                 print(login_form, group_form, password_form)
-                return redirect('/')
+                return redirect(f'/main/{login_form}')
             else:
                 flash('Bad!', 'message')
                 return redirect('/')
@@ -56,9 +34,19 @@ def login():
         return render_template('login.html')
 
 
-@app.route('/main')
-def main():
-    return render_template('main.html')
+@app.route('/main/<username>', methods=['POST', 'GET'])
+def main(username):
+    db = Database()
+    username = db.select_user_with_login(login=username)
+    user = {
+        'username': f"{username[0] + ' ' + username[1]}"
+    }
+    return render_template('main.html', user=user)
+
+
+@app.route('/test/<username>')
+def cookie(username):
+    return username
 
 
 if __name__ == '__main__':

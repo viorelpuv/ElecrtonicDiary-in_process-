@@ -40,6 +40,13 @@ body {
     text-decoration: none;
     max-width: 32px;
     user-select: none;
+    padding-left: 0.5em;
+}
+
+.logotype {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-teacher--text {
@@ -199,6 +206,6 @@ body {
 }
 
 .flash-text {
-    font-size: 1.75em;
+    font-size: 1.3em;
     color: white;
 }

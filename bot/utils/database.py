@@ -16,6 +16,10 @@ class Database:
         return (self.cur.execute("""SELECT * FROM telegram_users WHERE user_id = ?""", (user_id,))
                 .fetchall())
 
+    def select_usernames(self, login):
+        return (self.cur.execute("""SELECT * FROM telegram_users WHERE Логин = ?""", (login,))
+                .fetchall())
+
     def __del__(self):
         self.cur.close()
         self.con.close()
