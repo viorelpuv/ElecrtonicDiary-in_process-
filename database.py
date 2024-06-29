@@ -6,7 +6,7 @@ class Database:
     def __init__(self):
         self.con = connect(
             host='localhost',
-            user='root',
+            user='',
             password=''
         )
         self.cur = self.con.cursor()
