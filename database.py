@@ -7,8 +7,7 @@ class Database:
         self.con = connect(
             host='localhost',
             user='root',
-            password=Encryptor().Decrypted('❄❆❆❄❆❆❆❆❄❄❆❆❆❄❄❆❄❆❄❄❆❄❄❆❄❄❆❆❄❆❆❆'
-                                           '❄❄❆❄❄❆❄❄❄❄❆❆❆❄❄❄❄❆❄❄❆❆❄❆❄❆❄❆❄❆❄❆')
+            password=''
         )
         self.cur = self.con.cursor()
         self.cur.execute("""use data""")
